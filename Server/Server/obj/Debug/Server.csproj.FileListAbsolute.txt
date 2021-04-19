@@ -1,0 +1,6 @@
+C:\Users\lando\Desktop\Coding\C#\Networking Library\Server\Server\bin\Debug\Server.exe
+C:\Users\lando\Desktop\Coding\C#\Networking Library\Server\Server\bin\Debug\Server.pdb
+C:\Users\lando\Desktop\Coding\C#\Networking Library\Server\Server\obj\Debug\Server.csprojAssemblyReference.cache
+C:\Users\lando\Desktop\Coding\C#\Networking Library\Server\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\lando\Desktop\Coding\C#\Networking Library\Server\Server\obj\Debug\Server.exe
+C:\Users\lando\Desktop\Coding\C#\Networking Library\Server\Server\obj\Debug\Server.pdb
