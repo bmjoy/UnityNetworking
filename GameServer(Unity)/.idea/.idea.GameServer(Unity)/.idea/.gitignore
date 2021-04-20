@@ -1,0 +1,13 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/projectSettingsUpdater.xml
+/.idea.GameServer(Unity).iml
+/contentModel.xml
+/modules.xml
+# Datasource local storage ignored files
+/../../../../../../../../../../../../:\Users\lando\Desktop\Coding\C#\Unity Projects\Unity Networking Solution\GameServer(Unity)\.idea\.idea.GameServer(Unity)\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
