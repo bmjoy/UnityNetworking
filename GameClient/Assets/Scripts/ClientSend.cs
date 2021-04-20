@@ -21,7 +21,7 @@ public class ClientSend : MonoBehaviour
     {
         using (Packet _packet = new Packet((int)ClientPackets.welcomeReceived))
         {
-            _packet.Write(Client.Instance.myId);
+            _packet.Write(Client.Instance.id);
             _packet.Write(UIManager.instance.usernameField.text);
 
             SendTCPData(_packet);
@@ -37,7 +37,7 @@ public class ClientSend : MonoBehaviour
             {
                 _packet.Write(_input);
             }
-            _packet.Write(GameManager.players[Client.Instance.myId].transform.rotation);
+            _packet.Write(GameManager.players[Client.Instance.id].transform.rotation);
 
             SendUDPData(_packet);
         }

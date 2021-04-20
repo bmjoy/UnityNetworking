@@ -4,15 +4,28 @@ using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
 using System;
+using Unity.Collections;
+using UnityEngine.Serialization;
 
 public class Client : MonoBehaviour
 {
     public static Client Instance;
     public static int dataBufferSize = 4096;
-
+    
+    [Header("Connection Settings")]
     public string ip = "127.0.0.1";
     public int port = 26950;
-    public int myId = 0;
+    
+    [Space]
+    
+    [Header("Client Attributes")]
+    [ReadOnly] public int id = 0;
+
+    [Space] 
+    
+    [Header("Client Settings")] 
+    public bool playerMovement;    
+    
     public TCP tcp;
     public UDP udp;
 
@@ -49,6 +62,8 @@ public class Client : MonoBehaviour
 
         isConnected = true;
         tcp.Connect();
+        
+        Debug.Log("Connected to server.");
     }
     
     private void Disconnect()
@@ -72,7 +87,6 @@ public class Client : MonoBehaviour
             { (int)ServerPackets.playerPosition, ClientHandle.PlayerPosition },
             { (int)ServerPackets.playerRotation, ClientHandle.PlayerRotation },
         };
-        Debug.Log("Initialized packets.");
     }
     
     #region TCP
@@ -236,7 +250,7 @@ public class Client : MonoBehaviour
         {
             try
             {
-                _packet.InsertInt(Instance.myId);
+                _packet.InsertInt(Instance.id);
                 if (socket != null)
                 {
                     socket.BeginSend(_packet.ToArray(), _packet.Length(), null, null);

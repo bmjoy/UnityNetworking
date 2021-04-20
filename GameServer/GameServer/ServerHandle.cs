@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Numerics;
 using System.Text;
 
@@ -30,6 +31,12 @@ namespace GameServer
             Quaternion _rotation = _packet.ReadQuaternion();
 
             Server.clients[_fromClient].player.SetInput(_inputs, _rotation);
+        }
+
+        public static void ReceiveHello(int client, Packet _packet)
+        {
+            string message = _packet.ReadString();
+            Console.WriteLine(Server.clients[client].player.username + ": " + message);
         }
     }
 }

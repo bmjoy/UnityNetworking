@@ -31,6 +31,6 @@ public class PlayerController : MonoBehaviour
             Input.GetKey(KeyCode.D),
         };
 
-        ClientSend.PlayerMovement(_inputs);
+        if (Client.Instance.playerMovement) ClientSend.PlayerMovement(_inputs);
     }
 }

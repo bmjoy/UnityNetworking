@@ -22,6 +22,40 @@ namespace GameServer
             tcp = new TCP(id);
             udp = new UDP(id);
         }
+        
+        public void SendIntoGame(string _playerName)
+        {
+            player = new Player(id, _playerName, new Vector3(0, 0, 0));
+
+            foreach (Client _client in Server.clients.Values)
+            {
+                if (_client.player != null)
+                {
+                    if (_client.id != id)
+                    {
+                        ServerSend.SpawnPlayer(id, _client.player);
+                    }
+                }
+            }
+
+            foreach (Client _client in Server.clients.Values)
+            {
+                if (_client.player != null)
+                {
+                    ServerSend.SpawnPlayer(_client.id, player);
+                }
+            }
+        }
+
+        private void Disconnect()
+        {
+            Console.WriteLine($"{tcp.socket.Client.RemoteEndPoint} has disconnected.");
+
+            player = null;
+
+            tcp.Disconnect();
+            udp.Disconnect();
+        }
 
         public class TCP
         {
@@ -50,7 +84,7 @@ namespace GameServer
 
                 stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
 
-                ServerSend.Welcome(id, "Welcome to the server!");
+                ServerSend.Welcome(id, "Welcome to the server.");
             }
 
             public void SendData(Packet _packet)
@@ -188,40 +222,6 @@ namespace GameServer
             {
                 endPoint = null;
             }
-        }
-
-        public void SendIntoGame(string _playerName)
-        {
-            player = new Player(id, _playerName, new Vector3(0, 0, 0));
-
-            foreach (Client _client in Server.clients.Values)
-            {
-                if (_client.player != null)
-                {
-                    if (_client.id != id)
-                    {
-                        ServerSend.SpawnPlayer(id, _client.player);
-                    }
-                }
-            }
-
-            foreach (Client _client in Server.clients.Values)
-            {
-                if (_client.player != null)
-                {
-                    ServerSend.SpawnPlayer(_client.id, player);
-                }
-            }
-        }
-
-        private void Disconnect()
-        {
-            Console.WriteLine($"{tcp.socket.Client.RemoteEndPoint} has disconnected.");
-
-            player = null;
-
-            tcp.Disconnect();
-            udp.Disconnect();
         }
     }
 }
