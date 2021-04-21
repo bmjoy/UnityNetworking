@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1785064875460157063}
   - component: {fileID: 6275228033192057628}
   - component: {fileID: 4330084339988553120}
-  - component: {fileID: 1421807826870193023}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -80,20 +79,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &1421807826870193023
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8424302860765143096}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8754956359241081505
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,6 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1464397321375861452}
+  - component: {fileID: 3369149990315743180}
   - component: {fileID: 7029908800289861620}
   m_Layer: 0
   m_Name: Player
@@ -126,6 +112,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!143 &3369149990315743180
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8754956359241081505}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7029908800289861620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,3 +144,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   username: 
+  cc: {fileID: 3369149990315743180}
+  gravity: -9.81
+  moveSpeed: 4
+  sprintSpeed: 8
+  jumpHeight: 5

@@ -14,7 +14,7 @@ public class Client : MonoBehaviour
     
     [Header("Connection Settings")]
     public string ip = "127.0.0.1";
-    public int port = 26950;
+    public int port = 444;
     
     [Space]
     
@@ -45,24 +45,22 @@ public class Client : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        tcp = new TCP();
-        udp = new UDP();
-    }
-
     private void OnApplicationQuit()
     {
         Disconnect();
     }
-
+    
+    #region Client Methods
     public void Connect()
     {
+        tcp = new TCP();
+        udp = new UDP();
+        
         InitializeClientData();
 
         isConnected = true;
         tcp.Connect();
-        
+
         Debug.Log("Connected to server.");
     }
     
@@ -88,6 +86,7 @@ public class Client : MonoBehaviour
             { (int)ServerPackets.playerRotation, ClientHandle.PlayerRotation },
         };
     }
+    #endregion
     
     #region TCP
     public class TCP

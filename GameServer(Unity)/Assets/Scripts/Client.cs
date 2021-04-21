@@ -13,14 +13,31 @@ public class Client
         public Player player;
         public TCP tcp;
         public UDP udp;
-
+        
+        #region Constructor
         public Client(int _clientId)
         {
             id = _clientId;
             tcp = new TCP(id);
             udp = new UDP(id);
         }
-        
+        #endregion
+        private void Disconnect()
+        {
+            Console.WriteLine($"{tcp.socket.Client.RemoteEndPoint} has disconnected.");
+            
+            ThreadManager.ExecuteOnMainThread(() =>
+            {
+                UnityEngine.Object.Destroy(player.gameObject);
+                player = null;
+            });
+            
+            Debug.Log($"{tcp.socket.Client.RemoteEndPoint} just disconnected.");
+
+            tcp.Disconnect();
+            udp.Disconnect();
+        }
+    
         public void SendIntoGame(string _playerName)
         {
             player = NetworkManager.Instance.InstantiatePlayer();
@@ -46,17 +63,7 @@ public class Client
             }
         }
 
-        private void Disconnect()
-        {
-            Console.WriteLine($"{tcp.socket.Client.RemoteEndPoint} has disconnected.");
-            
-            UnityEngine.Object.Destroy(player.gameObject);
-            player = null;
-
-            tcp.Disconnect();
-            udp.Disconnect();
-        }
-
+        #region TCP
         public class TCP
         {
             public TcpClient socket;
@@ -181,7 +188,9 @@ public class Client
                 socket = null;
             }
         }
-
+        #endregion
+        
+        #region UDP
         public class UDP
         {
             public IPEndPoint endPoint;
@@ -223,4 +232,5 @@ public class Client
                 endPoint = null;
             }
         }
+        #endregion
 }

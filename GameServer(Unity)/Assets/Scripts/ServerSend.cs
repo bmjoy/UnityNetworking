@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class ServerSend : MonoBehaviour
 {
+    #region TCP and UDP Send Methods
     private static void SendTCPData(int _toClient, Packet _packet)
     {
         _packet.WriteLength();
         Server.clients[_toClient].tcp.SendData(_packet);
     }
-
     private static void SendUDPData(int _toClient, Packet _packet)
     {
         _packet.WriteLength();
         Server.clients[_toClient].udp.SendData(_packet);
     }
-
     private static void SendTCPDataToAll(Packet _packet)
     {
         _packet.WriteLength();
@@ -35,7 +34,6 @@ public class ServerSend : MonoBehaviour
             }
         }
     }
-
     private static void SendUDPDataToAll(Packet _packet)
     {
         _packet.WriteLength();
@@ -55,6 +53,7 @@ public class ServerSend : MonoBehaviour
             }
         }
     }
+    #endregion
 
     #region Packets
     public static void Welcome(int _toClient, string _msg)

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,12 @@ public class NetworkManager : MonoBehaviour
 {
 
     public static NetworkManager Instance;
+
+    [Header("Network Settings")] 
+    public int port = 444;
+    public int maxPlayers = 10;
+    
+    [Space]
 
     public GameObject playerPrefab;
 
@@ -24,10 +31,12 @@ public class NetworkManager : MonoBehaviour
     {
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 30;
-        #if UNITY_EDITOR
-        Debug.Log("Build the server before playing.");
-        #else
-        Server.Start(10, 444);
-        #endif
+        
+        Server.Start(maxPlayers, port);
+    }
+
+    private void OnApplicationQuit()
+    {
+        Server.Stop();
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ServerHandle
 {
+    #region Handling Packets
     public static void WelcomeReceived(int _fromClient, Packet _packet)
     {
         int _clientIdCheck = _packet.ReadInt();
@@ -28,10 +29,5 @@ public class ServerHandle
 
         Server.clients[_fromClient].player.SetInput(_inputs, _rotation);
     }
-
-    public static void ReceiveHello(int client, Packet _packet)
-    {
-        string message = _packet.ReadString();
-        Debug.Log(Server.clients[client].player.username + ": " + message);
-    }
+    #endregion
 }

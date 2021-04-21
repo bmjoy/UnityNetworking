@@ -8,15 +8,16 @@ using UnityEngine;
 public class Server
 {
     public static int MaxPlayers { get; private set; }
-        public static int Port { get; private set; }
-        public static Dictionary<int, Client> clients = new Dictionary<int, Client>();
-        public delegate void PacketHandler(int _fromClient, Packet _packet);
-        public static Dictionary<int, PacketHandler> packetHandlers;
+    public static int Port { get; private set; }
+    public static Dictionary<int, Client> clients = new Dictionary<int, Client>();
+    public delegate void PacketHandler(int _fromClient, Packet _packet);
+    public static Dictionary<int, PacketHandler> packetHandlers;
 
-        private static TcpListener tcpListener;
-        private static UdpClient udpListener;
+    private static TcpListener tcpListener;
+    private static UdpClient udpListener;
 
-        public static void Start(int _maxPlayers, int _port)
+    #region Start and Stop Server Methods
+    public static void Start(int _maxPlayers, int _port)
         {
             MaxPlayers = _maxPlayers;
             Port = _port;
@@ -32,8 +33,33 @@ public class Server
 
             Debug.Log($"Server started on port {Port}.");
         }
+    public static void Stop()
+        {
+            tcpListener.Stop();
+            udpListener.Close();
 
-        private static void TCPConnectCallback(IAsyncResult _result)
+            Debug.Log("Closed server.");
+        }
+    #endregion
+        
+    #region Server Initialization
+    private static void InitializeServerData()
+        {
+            for (int i = 1; i <= MaxPlayers; i++)
+            {
+                clients.Add(i, new Client(i));
+            }
+
+            packetHandlers = new Dictionary<int, PacketHandler>()
+            {
+                { (int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived },
+                { (int)ClientPackets.playerMovement, ServerHandle.PlayerMovement },
+            };
+        }
+    #endregion
+        
+    #region Callbacks
+    private static void TCPConnectCallback(IAsyncResult _result)
         {
             TcpClient _client = tcpListener.EndAcceptTcpClient(_result);
             tcpListener.BeginAcceptTcpClient(TCPConnectCallback, null);
@@ -51,7 +77,7 @@ public class Server
             Debug.Log($"{_client.Client.RemoteEndPoint} failed to connect: Server full");
         }
 
-        private static void UDPReceiveCallback(IAsyncResult _result)
+    private static void UDPReceiveCallback(IAsyncResult _result)
         {
             try
             {
@@ -87,11 +113,11 @@ public class Server
             }
             catch (Exception _ex)
             {
-                Debug.Log($"Error receiving UDP data: {_ex}");
+                if (udpListener.Client.Connected) Debug.Log($"Error receiving UDP data: {_ex}");
             }
         }
 
-        public static void SendUDPData(IPEndPoint _clientEndPoint, Packet _packet)
+    public static void SendUDPData(IPEndPoint _clientEndPoint, Packet _packet)
         {
             try
             {
@@ -105,18 +131,5 @@ public class Server
                 Debug.Log($"Error sending data to {_clientEndPoint} via UDP: {_ex}");
             }
         }
-
-        private static void InitializeServerData()
-        {
-            for (int i = 1; i <= MaxPlayers; i++)
-            {
-                clients.Add(i, new Client(i));
-            }
-
-            packetHandlers = new Dictionary<int, PacketHandler>()
-            {
-                { (int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived },
-                { (int)ClientPackets.playerMovement, ServerHandle.PlayerMovement },
-            };
-        }
-    }
+    #endregion
+}

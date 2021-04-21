@@ -55,6 +55,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -66,6 +67,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -137,9 +139,10 @@ Camera:
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_GateFitMode: 2
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -188,8 +191,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 8283048436765457631}
-  sensitivity: 100
-  clampAngle: 85
+  sensitivity: 150
+  clampAngle: 80
 --- !u!1 &7677484484946083636
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +203,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8819256922348106597}
   - component: {fileID: 8283048436765457631}
-  - component: {fileID: 6761221046541469059}
+  - component: {fileID: 8337765299001045008}
   m_Layer: 0
   m_Name: LocalPlayer
   m_TagString: Untagged
@@ -216,7 +219,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7677484484946083636}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 321.8996, y: 107.521034, z: -300.09445}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8720703571214989855}
@@ -238,7 +241,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   username: 
---- !u!114 &6761221046541469059
+  isLocalPlayer: 0
+  nametag: {fileID: 0}
+--- !u!114 &8337765299001045008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -250,3 +255,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bdcd1c6445aa2c44941c68487443478, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serverAuthoritativeMovement: 1
+  allowJumping: 1
+  allowSprinting: 1
+  forward: 119
+  backward: 115
+  right: 100
+  left: 97
+  jump: 32
+  sprint: 304
