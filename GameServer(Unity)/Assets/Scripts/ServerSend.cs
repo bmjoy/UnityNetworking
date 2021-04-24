@@ -100,5 +100,18 @@ public class ServerSend : MonoBehaviour
             SendUDPDataToAll(_player.id, _packet); 
         }
     }
+
+    public static void DistributeChat(int user, string username, string chat)
+    {
+        using (Packet _packet = new Packet((int)ServerPackets.distributeChat))
+        {
+            _packet.Write(username);
+            _packet.Write(chat);
+            
+            Debug.Log(username + ": " + chat);
+            
+            SendTCPDataToAll(_packet);
+        }
+    }
     #endregion
 }

@@ -29,5 +29,13 @@ public class ServerHandle
 
         Server.clients[_fromClient].player.SetInput(_inputs, _rotation);
     }
+
+    public static void ReceiveChat(int id, Packet _packet)
+    {
+        string nickname = _packet.ReadString();
+        string chat = _packet.ReadString();
+
+        ServerSend.DistributeChat(id, nickname, chat);
+    }
     #endregion
 }

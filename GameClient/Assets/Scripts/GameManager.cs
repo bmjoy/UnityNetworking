@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
         _player.GetComponent<PlayerManager>().username = _username;
         _player.GetComponent<PlayerManager>().isLocalPlayer = local;
         if (!local) _player.GetComponent<PlayerManager>().ChangeNametag(_username);
+        if (local) _player.transform.name = "Local Player";
         players.Add(_id, _player.GetComponent<PlayerManager>());
     }
 }

@@ -43,5 +43,16 @@ public class ClientSend : MonoBehaviour
             SendUDPData(_packet);
         }
     }
+
+    public static void SendChat(string username, string chat)
+    {
+        using (Packet _packet = new Packet((int)ClientPackets.chat))
+        {
+            _packet.Write(username);
+            _packet.Write(chat);
+
+            SendTCPData(_packet);
+        }
+    }
     #endregion
 }

@@ -40,5 +40,12 @@ public class ClientHandle : MonoBehaviour
 
         GameManager.players[_id].transform.rotation = _rotation;
     }
+    public static void ReceiveChat(Packet _packet)
+    {
+        string name = _packet.ReadString();
+        string chat = _packet.ReadString();
+        
+        Debug.Log($"{name}: {chat}");
+    }
     #endregion
 }
