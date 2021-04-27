@@ -11,12 +11,14 @@ public enum ServerPackets
     playerPosition,
     playerRotation,
     chat,
+    instantiate,
 }
 public enum ClientPackets
 {
     welcomeReceived = 1,
     playerMovement,
     chat,
+    instantiate,
 }
 
 public class Packet : IDisposable
@@ -141,6 +143,12 @@ public class Packet : IDisposable
         Write(_value.y);
         Write(_value.z);
         Write(_value.w);
+    }
+    public void Write(NetworkTransform _value)
+    {
+        Write(_value.position);
+        Write(_value.rotation);
+        Write(_value.scale);
     }
     #endregion
 
@@ -285,6 +293,10 @@ public class Packet : IDisposable
     public Quaternion ReadQuaternion(bool _moveReadPos = true)
     {
         return new Quaternion(ReadFloat(_moveReadPos), ReadFloat(_moveReadPos), ReadFloat(_moveReadPos), ReadFloat(_moveReadPos));
+    }
+    public NetworkTransform ReadTransform(bool _moveReadPos = true)
+    {
+        return new NetworkTransform(ReadVector3(_moveReadPos), ReadQuaternion(_moveReadPos), ReadVector3(_moveReadPos));
     }
     #endregion
     

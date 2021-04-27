@@ -1,5 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using UnityEditor;
 using UnityEngine;
 
 public class ClientSend : MonoBehaviour
@@ -51,6 +54,18 @@ public class ClientSend : MonoBehaviour
             _packet.Write(username);
             _packet.Write(chat);
 
+            SendTCPData(_packet);
+        }
+    }
+
+    public static void InstantiatePrefab(string prefabFolder, GameObject prefab, NetworkTransform prefabTransform)
+    {
+        using (Packet _packet = new Packet((int) ClientPackets.instantiate))
+        {
+            _packet.Write(prefabFolder);
+            _packet.Write(Application.dataPath + prefabFolder + prefab.name);
+            _packet.Write(prefabTransform);
+            
             SendTCPData(_packet);
         }
     }

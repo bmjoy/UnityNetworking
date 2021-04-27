@@ -242,7 +242,8 @@ MonoBehaviour:
   id: 0
   username: 
   isLocalPlayer: 0
-  nametag: {fileID: 0}
+  nametag: {fileID: 7677484484946083636, guid: 557e9a3a3d9ee014087f779a676d456f, type: 3}
+  cube: {fileID: 4135632342727898852, guid: 563ebed2368ec2f48b7cbce2c7e87b5d, type: 3}
 --- !u!114 &8337765299001045008
 MonoBehaviour:
   m_ObjectHideFlags: 0

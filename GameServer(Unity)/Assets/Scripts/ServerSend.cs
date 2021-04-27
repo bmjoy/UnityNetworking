@@ -113,5 +113,17 @@ public class ServerSend : MonoBehaviour
             SendTCPDataToAll(_packet);
         }
     }
+
+    public static void SendInstantiatePacket(string prefabPath, string prefabName, NetworkTransform prefabTransform)
+    {
+        using (Packet _packet = new Packet((int) ServerPackets.instantiate))
+        {
+            _packet.Write(prefabPath);
+            _packet.Write(prefabName);
+            _packet.Write(prefabTransform);
+            
+            SendTCPDataToAll(_packet);
+        }
+    }
     #endregion
 }

@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Sockets;
 using System;
 using Unity.Collections;
-using UnityEngine.Serialization;
 
 public class Client : MonoBehaviour
 {
@@ -15,7 +14,7 @@ public class Client : MonoBehaviour
     [Header("Connection Settings")]
     public string ip = "127.0.0.1";
     public int port = 444;
-    
+
     [Space]
     
     [Header("Client Attributes")]
@@ -24,8 +23,8 @@ public class Client : MonoBehaviour
     [Space] 
     
     [Header("Client Settings")] 
-    public bool playerMovement;    
-    
+    public bool playerMovement;
+
     public TCP tcp;
     public UDP udp;
 
@@ -85,6 +84,7 @@ public class Client : MonoBehaviour
             { (int)ServerPackets.playerPosition, ClientHandle.PlayerPosition },
             { (int)ServerPackets.playerRotation, ClientHandle.PlayerRotation },
             { (int)ServerPackets.chat, ClientHandle.ReceiveChat },
+            { (int)ServerPackets.instantiate, ClientHandle.ReceiveInstantiatePacket },
         };
     }
     #endregion
