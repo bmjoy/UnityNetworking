@@ -62,8 +62,14 @@ public class ServerSend : MonoBehaviour
         {
             _packet.Write(_msg);
             _packet.Write(_toClient);
-
+            
             SendTCPData(_toClient, _packet);
+        }
+
+        for (int i = 0; i < instantiatePackets.Count; i++)
+        {
+            Debug.Log("Sent another instantiate packet to a new user");
+            SendInstantiatePacket(instantiatePackets[i].ReadString(), instantiatePackets[i].ReadString(), instantiatePackets[i].ReadTransform());
         }
     }
 
@@ -75,7 +81,7 @@ public class ServerSend : MonoBehaviour
             _packet.Write(_player.username);
             _packet.Write(_player.transform.position);
             _packet.Write(_player.transform.rotation);
-
+            
             SendTCPData(_toClient, _packet);
         }
     }
@@ -114,6 +120,7 @@ public class ServerSend : MonoBehaviour
         }
     }
 
+    private static List<Packet> instantiatePackets = new List<Packet>();
     public static void SendInstantiatePacket(string prefabPath, string prefabName, NetworkTransform prefabTransform)
     {
         using (Packet _packet = new Packet((int) ServerPackets.instantiate))
@@ -121,7 +128,8 @@ public class ServerSend : MonoBehaviour
             _packet.Write(prefabPath);
             _packet.Write(prefabName);
             _packet.Write(prefabTransform);
-            
+            instantiatePackets.Add(_packet);
+
             SendTCPDataToAll(_packet);
         }
     }

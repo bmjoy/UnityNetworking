@@ -557,6 +557,7 @@ MonoBehaviour:
   ip: 127.0.0.1
   port: 444
   id: 0
+  connectionStatus: 0
   playerMovement: 1
 --- !u!4 &630787562
 Transform:

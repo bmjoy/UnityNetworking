@@ -69,6 +69,22 @@ public class ServerHandle
         string prefabName = _packet.ReadString();
         NetworkTransform prefabTransform = _packet.ReadTransform();
 
+        GameObject[] prefabs = GetAtPath<GameObject>(prefabPath);
+        GameObject prefab = null;
+        
+        for (int i = 0; i < prefabs.Length; i++)
+        {
+            if (prefabs[i].name == prefabName.Split('/')[prefabName.Split('/').Length - 1])
+            {
+                prefab = prefabs[i];
+            }
+        }
+        
+        GameObject instantiated = MonoBehaviour.Instantiate(prefab);
+        instantiated.transform.position = prefabTransform.position;
+        instantiated.transform.rotation = prefabTransform.rotation;
+        instantiated.transform.localScale = prefabTransform.scale;
+        
         ServerSend.SendInstantiatePacket(prefabPath, prefabName, prefabTransform);
     }
     #endregion

@@ -1,10 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
 using System;
+using System.Net.NetworkInformation;
 using Unity.Collections;
+using UnityEditor.MemoryProfiler;
+using Ping = System.Net.NetworkInformation.Ping;
 
 public class Client : MonoBehaviour
 {
@@ -19,6 +21,7 @@ public class Client : MonoBehaviour
     
     [Header("Client Attributes")]
     [ReadOnly] public int id = 0;
+    [SerializeField, ReadOnly] private ConnectionStatus connectionStatus;
 
     [Space] 
     
@@ -29,6 +32,7 @@ public class Client : MonoBehaviour
     public UDP udp;
 
     private bool isConnected = false;
+
     private delegate void PacketHandler(Packet _packet);
     private static Dictionary<int, PacketHandler> packetHandlers;
 
@@ -42,6 +46,18 @@ public class Client : MonoBehaviour
         {
             Destroy(this);
         }
+
+        connectionStatus = ConnectionStatus.Disconnected;
+    }
+    
+    private void Update()
+    {
+        if (!isConnected) return;
+
+        long ping = GetPing().RoundtripTime;
+        if (ping >= 1000) { connectionStatus = ConnectionStatus.MildLatency; }
+        else if (ping >= 3000) { connectionStatus = ConnectionStatus.BadLatency; }
+        else { connectionStatus = ConnectionStatus.Connected; }
     }
 
     private void OnApplicationQuit()
@@ -58,21 +74,40 @@ public class Client : MonoBehaviour
         InitializeClientData();
 
         isConnected = true;
+        connectionStatus = ConnectionStatus.Connected;
         tcp.Connect();
 
         Debug.Log("Connected to server.");
     }
-    
+
     private void Disconnect()
     {
         if (isConnected)
         {
             isConnected = false;
+            connectionStatus = ConnectionStatus.Disconnected;
             tcp.socket.Close();
             udp.socket.Close();
 
             Debug.Log("Disconnected from server.");
         }
+    }
+
+    public PingReply GetPing()
+    {
+        Ping ping = new Ping();
+        PingReply reply = ping.Send(ip, port);
+        if (reply != null)
+        {
+            return reply;
+        }
+
+        return null;
+    }
+
+    public ConnectionStatus GetConnectionStatus()
+    {
+        return connectionStatus;
     }
     
     private void InitializeClientData()
@@ -310,4 +345,13 @@ public class Client : MonoBehaviour
         }
     }
     #endregion
+}
+
+public enum ConnectionStatus
+{
+    Disconnected,
+    Connected,
+    MildLatency,
+    BadLatency,
+    PacketLoss,
 }

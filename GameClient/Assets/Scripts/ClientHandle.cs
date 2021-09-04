@@ -79,7 +79,6 @@ public class ClientHandle : MonoBehaviour
         
         Debug.Log($"{name}: {chat}");
     }
-
     public static void ReceiveInstantiatePacket(Packet _packet)
     {
         string prefabFolder = _packet.ReadString();

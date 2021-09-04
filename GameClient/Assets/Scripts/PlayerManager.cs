@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
-        if (isLocalPlayer) ClientSend.InstantiatePrefab("Prefabs/", cube, new NetworkTransform(new Vector3(Random.Range(-10, 10), 2, 0), Quaternion.identity, Vector3.one));
+        if (isLocalPlayer) ClientSend.InstantiatePrefab("/Prefabs/", cube, new NetworkTransform(new Vector3(Random.Range(-10, 10), 2, 0), Quaternion.identity, Vector3.one));
     }
     
     public void ChangeNametag(string text)
